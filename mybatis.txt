@@ -1,0 +1,41 @@
+中文文档  https://mybatis.org/mybatis-3/zh/configuration.html#
+1、搭建环境
+    maven 导入jar包  mysql、mybatis、junit
+    mybatis配置文件，配置数据库等
+    核心配置文件中注册mappers
+2、编写代码
+    实体类
+    接口
+    接口实现类  由原来的impl实现类转换成mapper.xml文件
+3、CRUD
+    select、insert、update、delete  增删改需要提交事务
+        namespace 中的包名要和mapper接口的包名一致
+        id：就是对应的namespace中的方法名
+        resultType：sql语句执行的返回值
+        parameterType：参数类型
+    分析错误：
+        标签匹配错误
+        resource绑定mapper,需要使用路径
+        程序配置文件出错
+        数据库连接配置出错
+        maven资源文件没有导出
+    假设实体类属性比较多，可以考虑使用map  直接取出key
+    模糊查询：
+        java代码 传递通配符 %李%
+        在sql拼接中使用通配符  name like "%"#{value}"%"
+4、配置文件
+    默认事务管理器 JDBC  使用连接池
+    属性 properties
+        <properties resource="db.properties">
+            <property name="username" value="root"/>
+            <property name="password" value="root"/>
+        </properties>
+    类型别名 typeAliases
+         <typeAliases>
+            <typeAlias type="com.xin.pojo.User" alias="User"/> <!--实体类比较少-->
+            <package name="com.xin.pojo"/><!--实体类比较多-->
+         </typeAliases>
+    设置
+5.属性名和字段名不一致
+    起别名、结果集映射（resultMap）
+
