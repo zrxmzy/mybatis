@@ -3,26 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <!--引入外部配置文件-->
     <properties resource="db.properties">
         <property name="username" value="root"/>
         <property name="password" value="root"/>
     </properties>
-    <!--设置-->
     <settings>
-        <!--<setting name="logImpl" value="STDOUT_LOGGING"/>-->
         <setting name="logImpl" value="LOG4J"/>
-        <!-- 开启驼峰命名自动映射 -->
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
-        <!-- 开启全局缓存 -->
-        <setting name="cacheEnabled" value="true"/>
     </settings>
-    <!--给实体类起别名-->
     <typeAliases>
-        <!--<typeAlias type="com.xin.pojo.User" alias="hello"/>-->
         <package name="com.xin.pojo"/>
     </typeAliases>
-    
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -34,12 +24,9 @@
             </dataSource>
         </environment>
     </environments>
-    <!--每一个mapper.xml都需要配置一个mapper-->
     <mappers>
-        <mapper resource="com/xin/mapper/UserMapper.xml"/>
-       <!-- <mapper class="com.xin.mapper.UserMapper"/>-->
-        <mapper resource="com/xin/mapper/TeacherMapper.xml"/>
-        <mapper resource="com/xin/mapper/StudentMapper.xml"/>
-        <mapper resource="com/xin/mapper/BlogMapper.xml"/>
+       <!-- <mapper resource="com/xin/mapper/RoleMapper.xml"/>
+        <mapper resource="com/xin/mapper/BillMapper.xml"/>-->
+        <package name="com.xin.mapper"/>
     </mappers>
 </configuration>

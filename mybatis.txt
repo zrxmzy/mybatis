@@ -36,6 +36,41 @@
             <package name="com.xin.pojo"/><!--实体类比较多-->
          </typeAliases>
     设置
-5.属性名和字段名不一致
-    起别名、结果集映射（resultMap）
-
+5.属性名和字段名不一致 ResultMap
+    起别名、结果集映射（resultMap）数据库中的字段对应实体类的属性
+        property:实体类的属性名
+        column： 数据库的字段名
+        javaType：实际返回类型
+        ofType：集合中的泛型约束类型
+6、日志
+    如果数据库出现了异常，需要打印日志。
+    日志工厂：log4j、stdout_logging
+7、分页
+    limit
+    RowBounds 不建议使用
+    分页插件： Mybatis PageHelper
+8、使用注解
+    在接口中实现，需要在配置文件中绑定接口,使用class绑定，接口和.xml一定要在同一个包下
+    本质：反射机制实现，动态代理
+    @Params
+        基本类型的参数或String类型，需要加上；引用类型不需要加
+        在sql中引用的就是@Params中设定的属性名
+9、Lombok（不建议使用）
+    1.在idea中导入插件lombok
+    2.导入jar包依赖
+    3.在实体类上加注解
+        @Data // 无参构造、get、set、toString、hashcode、equals
+        @AllArgsConstructor // 有参构造，加上之后就会去掉@Data的无参构造
+        @NoArgsConstructor // 无参构造
+10、多对一
+    按照查询嵌套处理：子查询
+    按照结果嵌套处理：联表查询
+11、动态SQL： 实际上就是拼接sql，首先要保证sql的正确
+    if、trim(where、set)、choose、when、otherwise、sql片段、foreach
+12、缓存
+    一级缓存：默认开启，只在一次sqlsession中，增删改都会刷新缓存，sqlSession.clearCache()也会清除缓存，在sqlsession close()之后缓存清空
+    二级缓存：
+        开启全局缓存（二级缓存）  <cache/>
+        实体类需要序列化
+    ehcache: 不建议使用  自定义缓存
+        <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>

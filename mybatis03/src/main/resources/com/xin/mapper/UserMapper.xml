@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xin.mapper.UserMapper">
+    <insert id="add" parameterType="User">
+        insert into smbms.smbms_user(ID, USERCODE, USERNAME, USERPASSWORD, GENDER, BIRTHDAY, PHONE, ADDRESS, USERROLE,
+         CREATEDBY, CREATIONDATE, MODIFYBY, MODIFYDATE) VALUES (#{id},#{userCode},#{userName},#{userPassword},
+         #{gender},#{birthday},#{phone},#{address},#{userRole},#{createdBy},#{creationDate},#{modifyBy},#{modifyDate});
+    </insert>
+    <select id="getLoginUser" parameterType="String" resultType="User">
+        select * from smbms.smbms_user
+        <where>
+            <if test="userCode != null">
+                userCode = #{userCode}
+            </if>
+        </where>
+    </select>
+    <select id="getUserList" parameterType="String" resultType="User">
+        select * from smbms.smbms_user
+        <where>
+            <if test=" userName != null">
+               and userName = #{userName}
+            </if>
+            <if test=" userRole != null">
+               and userRole = #{userRole}
+            </if>
+        </where>
+        limit #{currentPageNo},#{pageSize}
+    </select>
+    <select id="getUserCount" parameterType="String" resultType="int">
+        select count(*) from smbms.smbms_user
+        <where>
+            userName = #{userName} and userRole = #{userRole}
+        </where>
+    </select>
+    <select id="getUserById" parameterType="int" resultType="User">
+        select * from smbms.smbms_user where id = #{id}
+    </select>
+    <delete id="deleteUserById" parameterType="int">
+        delete from smbms.smbms_user where id = #{id}
+    </delete>
+    <update id="modify" parameterType="User">
+        update smbms.smbms_user
+        <set>
+            <if test="userRole != null">
+                userRole = #{userRole},
+            </if>
+            <if test="userName != null">
+                userName = #{userName},
+            </if>
+            <if test="userPassword != null">
+                userPassword = #{userPassword},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="modifyBy != null">
+                modifyBy = #{modifyBy},
+            </if>
+            <if test="modifyDate != null">
+                modifyDate = #{modifyDate},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <update id="updatePwd" parameterType="String">
+        update smbms.smbms_user
+        <set>
+            userPassword = #{userPassword}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+</mapper>

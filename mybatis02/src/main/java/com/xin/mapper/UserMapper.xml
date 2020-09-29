@@ -4,14 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace 绑定一个对应的Dao/Mapper接口 id对应接口方法名-->
 <mapper namespace="com.xin.mapper.UserMapper">
+    <!-- 开启全局缓存 在当前mapper.xml中使用二级缓存 FIFO先进先出 刷新间隔 引用数据大小
+        readOnly 只读性能高，不安全，可读可写速度慢，但安全 默认false -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
     <select id="getUserList" resultType="User">
         select * from mybatis.user
     </select>
-    <select id="getUserById" parameterType="int" resultType="User">
+    <select id="getUserById" parameterType="int" resultType="User" useCache="true">
         select * from mybatis.user where id = #{id}
+    </select>
+    <select id="getUserLimit" parameterType="map" resultType="User">
+        select * from mybatis.user limit #{startIndex},#{pageSize}
+    </select>
+    <select id="getUserByRowBons" resultType="User">
+        select * from mybatis.user
     </select>
     <insert id="addUser" parameterType="User">
         insert into mybatis.user(id, name, pwd) values(#{id},#{name},#{pwd})
+    </insert>
+    <insert id="addUserMap" parameterType="Map" >
+        insert into mybatis.user(id, name, pwd) values (#{id},#{name},#{password})
+    </insert>
+    <insert id="addUserAuto" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+        insert into mybatis.user(name, pwd) VALUES (#{name},#{password})
     </insert>
     <update id="updateUser" parameterType="User">
         update mybatis.user set name=#{name},pwd=#{pwd} where id = #{id}
