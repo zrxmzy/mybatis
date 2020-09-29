@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xin.mapper.ProviderMapper">
+    <insert id="add" parameterType="Provider">
+        insert into smbms.smbms_provider(ID, PROCODE, PRONAME, PRODESC, PROCONTACT, PROPHONE, PROADDRESS, PROFAX,
+         CREATEDBY, CREATIONDATE, MODIFYDATE, MODIFYBY) values(#{id},#{proCode},#{proName},#{proDesc},#{proContact},
+         #{proPhone},#{proAddress},#{proFax},#{createdBy},#{creationDate},#{modifyDate},#{modifyBy});
+    </insert>
+    <update id="modify" parameterType="Provider">
+        update smbms.smbms_provider
+        <set>
+            <if test="proName != null">
+                proName = #{proName},
+            </if>
+            <if test="proCode != null">
+                proCode = #{proCode},
+            </if>
+            <if test="proDesc != null">
+                proDesc = #{proDesc},
+            </if>
+            <if test="proContact != null">
+                proContact = #{proContact},
+            </if>
+            <if test="proPhone != null">
+                proPhone = #{proPhone},
+            </if>
+            <if test="modifyBy != null">
+                modifyBy = #{modifyBy},
+            </if>
+            <if test="modifyDate != null">
+                modifyDate = #{modifyDate},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <delete id="deleteProvideById" parameterType="String">
+        delete from smbms.smbms_provider
+        <where>
+            id = #{delId}
+        </where>
+    </delete>
+    <select id="getProviderList" parameterType="String" resultType="Provider">
+        select * from smbms.smbms_provider
+        <where>
+            <if test="proName != null">
+               (proName like concat('%',#{proName},'%') or proCode like concat('%',#{proName},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="getProviderById" parameterType="String" resultType="Provider">
+        select * from smbms.smbms_provider
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>
